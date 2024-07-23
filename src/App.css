@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+.llink{
+  padding: 0.5rem;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fefefe;
+  position: relative;
+  transition: color 0.25s;
+}
