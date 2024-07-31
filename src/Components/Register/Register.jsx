@@ -1,24 +1,19 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import Joi, { allow, number } from 'joi';
+import { Link, useNavigate } from 'react-router-dom';
+import Joi from 'joi';
+import axios from 'axios';
 export default function Register() {
     let navigate = useNavigate();
     const [errList,setErrList]=useState([]);
     const [err,setErr]=useState('');
     const [isLoading,setIsLoading]=useState(false);
-    const [user1,setUser1] = useState({
-        first_name:'mehdi',
-        last_name:'ben',
-        age:22,
-        email:'mehdi@gmail.com',
-        password:'1234'
-    });
     const [user,setUser] = useState({
-        first_name:'',
-        last_name:'',
+        firstName:'',
+        lastName:'',
         age:0,
         email:'',
-        password:''
+        password:'',
+        role:'USER'
     });
     function getUserData(eventInf){
         let myUser={...user};
@@ -27,19 +22,7 @@ export default function Register() {
     
     }
 
-
-
-    function sendRegisterToApi(){
-        if(user.email==user1.email && user.password ==user1.password){
-           
-            setIsLoading(false);
-            navigate('/login');
-        }else{
-            setIsLoading(false);
-                setErr('citizen validation failed: email: email already registred');
-        }
-    }
-    function submitRegisterForm(e){
+     function submitRegisterForm(e){
         e.preventDefault();
         setIsLoading(true);
         let validation=validationRegisterForm();
@@ -49,58 +32,66 @@ export default function Register() {
         }else{
              sendRegisterToApi();
         }
-       
-       
     }
 
     function validationRegisterForm(){
         let scheme= Joi.object({
-             first_name:Joi.string().min(3).max(10).required(),
-             last_name:Joi.string().min(3).max(10).required(),
+             firstName:Joi.string().min(3).max(10).required(),
+             lastName:Joi.string().min(3).max(10).required(),
              age:Joi.number().min(16).max(86).required(),
-             email: Joi.string().email({ tlds: { allow: false } }).required(),             password:Joi.string().required()
+             email: Joi.string().email({ tlds: { allow: false } }).required(),             
+             password:Joi.string().required(),
+             role:Joi.string(),
          });
          return scheme.validate(user,{abortEarly:false});
      }
-    //pour transformer des données réelles.............................................................................
-// async function sendRegisterToApi(){
-//     let {data} = await axiosfrom.post('url',user);
 
-// }
+async function sendRegisterToApi(){
+    let {data} = await axios.post('http://localhost:8080/register',user);
+    console.log(data);
+    if(data.message==='User registration was successful'){
+            setIsLoading(false);
+             navigate('/login');
+    }else{
+                setIsLoading(false);
+                setErr(data.message);
+    }
+}
 
-// function submitRegisterForm(e){
-//     e.preventDefault();
-//     sendRegisterToApi();
-// }
 
 
   return <>
+  <div className='px-5 '>
   <form onSubmit={submitRegisterForm}>
     
     {err.length>0? <div className='alert alert-danger'>{err}</div>:''}
-  <label htmlFor="first_name">first name :</label>
-  <input onChange={getUserData} type="text" className='form-control my-input my-2' name='first_name' id='first_name' />
-  <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='first_name')[0]?.message}</p>
+  <label htmlFor="firstName">first name :</label>
+  <input onChange={getUserData} type="text" className='form-control my-input my-2 rounded-1' name='firstName' id='firstName' />
+  <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='firstName')[0]?.message}</p>
 
-  <label htmlFor="last_name">last name :</label>
-  <input onChange={getUserData} type="text" className='form-control my-input my-2' name='last_name' id='last_name' />
+  <label htmlFor="lastName">last name :</label>
+  <input onChange={getUserData} type="text" className='form-control my-input my-2 rounded-1' name='lastName' id='lastName' />
   <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='laste_name')[0]?.message}</p>
 
   <label htmlFor="age">age :</label>
-  <input onChange={getUserData} type="number" className='form-control my-input my-2' name='age' id='age' />
+  <input onChange={getUserData} type="number" className='form-control my-input my-2 rounded-1' name='age' id='age' />
   <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='age')[0]?.message}</p>
 
   <label htmlFor="email">email :</label>
-  <input onChange={getUserData} type="email" className='form-control my-input my-2' name='email' id='email' />
+  <input onChange={getUserData} type="email" className='form-control my-input my-2 rounded-1' name='email' id='email' />
   <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='email')[0]?.message}</p>
 
   <label htmlFor="password">password :</label>
-  <input onChange={getUserData} type="password" className='form-control my-input my-2' name='password' id='password' />
+  <input onChange={getUserData} type="password" className='form-control my-input my-2 rounded-1' name='password' id='password' />
   <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='password')[0]?'password invalid':''}</p>
 
-  <button className='btn btn-outline-info'>
-    {isLoading?<i className='fas fa-spinner fa-spin'></i>:'Register'}</button>
+  <div className='d-flex justify-content-between'>
+<p>you have an account ? <span><Link to='/login'>login</Link></span>  </p>
+
+<button className='btn rounded-1 btn-outline-info'>
+{isLoading?<i className='fas fa-spinner fa-spin'></i>:'Register'}</button>
+</div>
   </form>
-  
+  </div>
   </>
 }

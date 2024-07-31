@@ -50,6 +50,7 @@ a{
 .text-style{
   font-size: small;
 }
+
 .offline{
   background-color: var(--bg-color);
   padding: 20px;

@@ -13,7 +13,7 @@ const [trendingPeople,setTrendingPeople]=useState([]);
     useEffect(()=>{
         getTrending('movie',setTrendingMovies);
         getTrending('tv',setTrendingTv);
-        getTrending('people',setTrendingPeople);
+        getTrending('person',setTrendingPeople);
     },[]);
   return {trendingMovies,trendingTv,trendingPeople}
 }

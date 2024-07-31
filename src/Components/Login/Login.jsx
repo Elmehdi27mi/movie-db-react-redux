@@ -1,27 +1,19 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import Joi, { allow, number } from 'joi';
+import { Link, useNavigate } from 'react-router-dom';
+import Joi from 'joi';
+import axios from 'axios';
 export default function Login({saveUserData}) {
     
     let navigate = useNavigate();
     const [errList,setErrList]=useState([]);
     const [err,setErr]=useState('');
     const [isLoading,setIsLoading]=useState(false);
-    const [user1,setUser1] = useState({
-        email:'mehdi@gmail.com',
-        password:'1234'
-    });
+
     const [user,setUser] = useState({
         email:'',
         password:''
     });
-    let [userData,setUserData]=useState({
-        first_name:'mehdi',
-        last_name:'ben',
-        age:22,
-        email:'mehdi@gmail.com',
-        password:'1234'
-    })
+ 
 
     function getUserData(eventInf){
         let myUser={...user};
@@ -32,17 +24,33 @@ export default function Login({saveUserData}) {
 
 
 
-    function sendLoginToApi(){
-        if(user.email==user1.email && user.password ==user1.password){
-            saveUserData();
-            localStorage.setItem('userData',userData)
+
+    async function sendLoginToApi() {
+        try {
+            let { data } = await axios.post('http://localhost:8080/login', user);
+            console.log("API Response:", data);
+            
+            if (data.message === 'User login was successful') {
+                console.log("Login successful, redirecting...");
+                localStorage.setItem("access_token", data.access_token);
+                localStorage.setItem("refresh_token", data.refresh_token);
+                saveUserData();
+                setIsLoading(false);
+                navigate('/');
+            } else {
+                console.error("Login failed:", data.message);
+                setIsLoading(false);
+                setErr(data.message);
+            }
+        } catch (error) {
+            console.error("Error during login request:", error);
             setIsLoading(false);
-            navigate('/');
-        }else{
-            setIsLoading(false);
-                setErr('citizen validation failed: email or password invalid');
+            setErr("An error occurred during login.");
         }
     }
+    
+
+    
     function submitLoginForm(e){
         e.preventDefault();
         setIsLoading(true);
@@ -57,6 +65,9 @@ export default function Login({saveUserData}) {
        
     }
 
+
+
+
     function validationLoginForm(){
         let scheme= Joi.object({
             email: Joi.string().email({ tlds: { allow: false } }).required(),       
@@ -64,6 +75,11 @@ export default function Login({saveUserData}) {
          });
          return scheme.validate(user,{abortEarly:false});
      }
+
+
+
+
+     
     //pour transformer des données réelles.............................................................................
 // async function sendLoginToApi(){
 //     let {data} = await axiosfrom.post('url',user);
@@ -77,20 +93,26 @@ export default function Login({saveUserData}) {
 
 
   return <>
+<div className='px-5 bg-danger '>
   <form onSubmit={submitLoginForm}>
     
-    {err.length>0? <div className='alert alert-danger'>{err}</div>:''}
+    {err.length>0? <div className='alert p-2 alert-danger'>{err}</div>:''}
   <label htmlFor="email">email :</label>
-  <input onChange={getUserData} type="email" className='form-control my-input my-2' name='email' id='email' />
+  <input onChange={getUserData} type="email" className='form-control my-input my-2 rounded-1' name='email' id='email' />
   <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='email')[0]?.message}</p>
 
   <label htmlFor="password">password :</label>
-  <input onChange={getUserData} type="password" className='form-control my-input my-2' name='password' id='password' />
+  <input onChange={getUserData} type="password" className='form-control my-input my-2 rounded-1' name='password' id='password' />
   <p className='text-danger fs-6'>{errList.filter((err)=>err.context.label==='password')[0]?'password invalid':''}</p>
 
-  <button className='btn btn-outline-info'>
-    {isLoading?<i className='fas fa-spinner fa-spin'></i>:'Login'}</button>
+<div className='d-flex justify-content-between'>
+<p>dont have account ? <span className='po'><Link to='/register'>register</Link></span>  </p>
+
+<button className='btn rounded-1 btn-outline-info'>
+{isLoading?<i className='fas fa-spinner fa-spin'></i>:'Login'}</button>
+</div>
+
   </form>
-  
+  </div>
   </>
 }
