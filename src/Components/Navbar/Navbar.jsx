@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 export default function Navbar({logOut,userData}) {
   return <>
-  <nav className="p-2 d-flex flex-md-row flex-column  justify-content-between ">
+  <nav className="p-2 d-flex flex-md-row flex-column  justify-content-between bgNav">
     <div className="left-nav d-flex flex-md-row flex-column align-items-center ">
         <h1 className='pe-3 m-0'>Noxe</h1>
         {userData ? <ul className='list-unstyled d-flex flex-md-row flex-column align-content-center m-0'>
@@ -17,10 +17,17 @@ export default function Navbar({logOut,userData}) {
     </div>
     <div className="right-nav d-flex flex-md-row flex-column align-items-center   ">
         <div className="social-media d-flex flex-md-row flex-column me-2">
+        <div class="checkbox-wrapper-5 mt-1 me-2">
+              <div class="check">
+                <input id="check-5" type="checkbox"/>
+                <label for="check-5"/>
+              </div>
+            </div>
             <i className='fab llink cursor-pointer fa-facebook '></i>
             <i className='fab llink cursor-pointer fa-spotify '></i>
             <i className='fab llink cursor-pointer fa-instagram '></i>
             <i className='fab llink cursor-pointer fa-youtube'></i>
+           
         </div>
         <ul className='list-unstyled d-flex flex-md-row flex-column align-content-center m-0'>
             {

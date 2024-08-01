@@ -3,7 +3,7 @@ import MediaItem from '../MediaItem/MediaItem';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrending } from '../../Redux/moviesslice';
-
+import Header from '../Header/Header'
 export default function Home() {
     const dispatch = useDispatch();
     const { trendingMovies, trendingTv, trendingPeople } = useSelector((state) => state.media);
@@ -20,23 +20,24 @@ export default function Home() {
                 <meta charSet='utf-8' />
                 <title>Home Page</title>
             </Helmet>
+            <Header/>
             <div className="row py-5">
                 <div className='col-md-4 d-flex'>
                     <div>
                         <div className="w-25 brdr mb-3"></div>
-                        <h2 className='h3'>Trending <br /> Movies <br /> to watch now</h2>
+                        <h2 className='h3 mainColor'>Trending <br /> Movies <br /> to watch now</h2>
                         <p className='py-2 pr'>Most watched movies by days</p>
                         <div className="w-100 brdr mt-3"></div>
                     </div>
                 </div>
-                {trendingMovies && trendingMovies.slice(0, 10).map((movie, index) => <MediaItem key={index} item={movie} />)}
+                {/* {trendingMovies && trendingMovies.slice(0, 10).map((movie, index) => <MediaItem key={index} item={movie} />)} */}
             </div>
-
+            
             <div className="row py-5">
                 <div className='col-md-4 d-flex'>
                     <div>
                         <div className="w-25 brdr mb-3"></div>
-                        <h2 className='h3'>Trending <br /> TV <br /> to watch now</h2>
+                        <h2 className='h3 mainColor'>Trending <br /> TV <br /> to watch now</h2>
                         <p className='py-2 pr'>Most watched TV shows by days</p>
                         <div className="w-100 brdr mt-3"></div>
                     </div>
@@ -48,7 +49,7 @@ export default function Home() {
                 <div className='col-md-4 d-flex'>
                     <div>
                         <div className="w-25 brdr mb-3"></div>
-                        <h2 className='h3'>Famous <br /> People <br /> to watch now</h2>
+                        <h2 className='h3 mainColor'>Famous <br /> People <br /> to watch now</h2>
                         <p className='py-2 pr'>Most famous people by days</p>
                         <div className="w-100 brdr mt-3"></div>
                     </div>
