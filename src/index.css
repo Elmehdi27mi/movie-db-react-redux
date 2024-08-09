@@ -1,8 +1,17 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+/* src/index.css ou src/App.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
 
+body {
+    font-family: 'Montserrat Alternates', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
 :root{
-  --bg-color:#131722;
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    --bg-color:#131722;
   --light-bg-color:#24baef;
   --bg-transparent:rgba(36,186,239,.6);
   --font-color:#fff;
@@ -10,10 +19,16 @@
   --border-height:1px;
   --second-font-color:#949cb0;
   --main-font : "Montserrat Alternates", sans-serif;
-
+  --gradient: linear-gradient(90deg, var(--bg-color),#24baef 100%);
+  --black: #0a254a;
 
 }
-
+.carouselTitle {
+  font-size: 24px;
+  color: white;
+  margin-bottom: 20px;
+  font-weight: normal;
+}
 body{
   background-color: #fafafa;
   font-family: var(--main-font);
@@ -39,8 +54,8 @@ a{
 .pr{
   color:#17151574 ;
 }
-.vote{
-  background-color:var(--light-bg-color) ;
+.switch-tabs-container {
+  display: inline-block; /* Ajuste la largeur en fonction du contenu */
 }
 
 .genre{
@@ -99,8 +114,10 @@ a{
         /*padding: 20px;*/
         background-image: url('../public/assetes/trending-bg-39afc2a5f77e31d469b25c187814c0a2efef225494c038098d62317d923f8415.svg'); /* Replace with your image URL */
         background-size: cover; /* Ensure the image covers the entire area */
-        background-position: center; /* Center the image */
+        background-position: 0px 50px; /* Center the image */
         background-repeat: no-repeat; /* Do not repeat the image */
+        margin-left: 6px;
+        width: 100%;
       }
       
       
@@ -130,27 +147,7 @@ a{
      }
      /* Header.css */
 
-/* Style for the scrollbar container */
-.scroll-container {
-  overflow-x: auto; /* Ensure scrollbar always shows */
-  white-space: nowrap;
 
-  display: flex;
-  scrollbar-width: thin; /* Firefox: thin scrollbar */
-}
-
-.scroll-container::-webkit-scrollbar {
-  width: 12px; /* Smaller scrollbar width for Chrome, Safari */
-}
-
-.scroll-container::-webkit-scrollbar-thumb {
-  background-color: #888; /* Thumb color */
-  border-radius: 10px; /* Rounded corners for the thumb */
-}
-
-.scroll-container::-webkit-scrollbar-thumb:hover {
-  background-color: #555; /* Darker thumb color on hover */
-}
 
 /* Ensure video titles wrap and do not overflow */
 .video-item .card-title {
@@ -159,14 +156,10 @@ a{
   text-overflow: ellipsis;
 }
 
-.carousel-container .react-multi-carousel-list {
-  padding: 0; /* Remove padding from the carousel list */
-}
+
 
 /* Hide the left and right arrows of the carousel */
-.carousel-container .react-multi-carousel-arrow {
-  display: none;
-}
+
 
 
 
@@ -267,30 +260,30 @@ a{
     line-height: 0;
   }
 
-
   .flex-wrapper {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: space-around;
   }
   
   .single-chart {
     width: 33%;
-    justify-content: space-around ;
   }
   
+  
   .circular-chart {
+    max-width: 80px;
+    max-height: 80px;
     display: block;
-    margin: 10px auto;
-    max-width: 80%;
-    max-height: 250px;
+    margin: 0 auto;
   }
+  
   
   .circle-bg {
     fill: none;
     stroke: #eee;
-    stroke-width: 3.8;
+    stroke-width:3;
   }
-  
   .circle {
     fill: none;
     stroke-width: 2.8;
@@ -322,39 +315,229 @@ a{
     font-size: 0.5em;
     text-anchor: middle;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+  
+ 
+  .vote-circle {
+    bottom: -20px; /* Distance depuis le bas */
+    left: 10px; /* Distance depuis la gauche */
+    width: 40px; /* Largeur du cercle */
+    height: 40px; /* Hauteur du cercle */
+    border-radius: 50%; /* Rendre le conteneur circulaire */
+    background-color: white; /* Fond noir avec opacité */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px; /* Espacement interne */
+  }
+  
+  .circular-chart {
+    width: 100%; /* Remplir le conteneur */
+    height: 100%;
+  }
+  
+  .circular-chart .percentage {
+    fill: black; /* Couleur du texte blanc */
+    font-size: 0.6em; /* Ajuster la taille du texte si nécessaire */
+    font-weight: 600;
+  }
   
 
 
 
+  .myicon{
+    background-color: #131722;
+    width: 40px;
+    height: 40px;
+  }
+  .play-icon{
+    color: #131722;
+  }
+  
+  .image-container {
+     /* Définissez une hauteur spécifique ou utilisez une autre unité selon vos besoins */
+    overflow: hidden; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: left center;
+    /* Assure que l'image de fond ne dépasse pas les limites de l'élément */
+  }
+    
+  .image-container-home {
+    /* Définissez une hauteur spécifique ou utilisez une autre unité selon vos besoins */
+   overflow: hidden; 
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: left center;
+   
+   /* Assure que l'image de fond ne dépasse pas les limites de l'élément */
+ }
+  
+  .image-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 40, 56, 0.7); /* Superposition noire avec opacité */
+    z-index: 0.5;
+  }
+  
+  .image-container * {
+    z-index: 555555;
+  }
+  
+  .padd{
+    padding: 0 150px;
+  }
+  
+
+/* index.css */
+
+/* Style pour la barre de défilement */
+.swiper-scrollbar {
+  background-color: transparent; /* Couleur de fond de la barre de défilement */
+ 
+}
+
+/* Style pour la partie active de la barre de défilement */
+.swiper-scrollbar-drag {
+  background-color: #DBDBDB; /* Couleur de la partie active de la barre de défilement */
+  height: 8px;
+}
+.bg-image{
+  width: 200px;
+  height: 200px;
+}
 
 
 
 
+
+
+
+.switchingTabs {
+  height: 34px;
+  background-color: white;
+  border-radius: 20px;
+  padding: 1px;
+  border: #04152d solid 1px;
+}
+.movingBg {
+  height: 30px;
+  width: 100px;
+  border-radius: 15px;
+  background-image: var(--gradient);
+  position: absolute;
+  left: 0;
+  transition: left cubic-bezier(0.88, -0.35, 0.565, 1.35) 0.4s;
+}
+.tabItem {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100px;
+  color: var(--black);
+  font-size: 14px;
+  position: relative;
+  z-index: 1;
+  cursor: pointer;
+  transition: color ease 0.3s;
+  &.active {
+      color: white;
+  }
+}
+.tabItems {
+  display: flex;
+  align-items: center;
+  height: 30px;
+  position: relative; 
+}
+
+.contentWrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+
+
+
+/*footer*/
+.footer {
+  background-color: var(--bg-color);
+  padding: 50px 0;
+  color: white;
+  position: relative;
+  .contentWrapper {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+  }
+  .menuItems {
+      list-style-type: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 20px;
+      @include md {
+          margin-bottom: 30px;
+          gap: 30px;
+      }
+      .menuItem {
+          transition: all ease 0.3s;
+          cursor: pointer;
+          font-size: 12px;
+          @include md {
+              font-size: 16px;
+          }
+          &:hover {
+              color: var(--pink);
+          }
+      }
+  }
+  .infoText {
+      font-size: 12px;
+      line-height: 20px;
+      opacity: 0.5;
+      text-align: center;
+      max-width: 800px;
+      margin-bottom: 20px;
+      @include md {
+          font-size: 14px;
+          margin-bottom: 30px;
+      }
+  }
+  .socialIcons {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      .icon {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background-color: var(--black);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all ease 0.3s;
+          &:hover {
+              box-shadow: 0 0 0.625em var(--pink);
+              color: var(--pink);
+          }
+      }
+  }
+}
+.person-details{
+  height: 60px;
+}
 
 
 

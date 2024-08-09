@@ -21,7 +21,7 @@ export default function Layout({setUserData,userData}) {
   return (
     <>
     <Navbar logOut={logOut} userData={userData} />
-    <div className="container">
+    <div >
     <Outlet></Outlet>
     </div>
     <Footer/>

@@ -1,6 +1,6 @@
 import './App.css';
 import Home from './Components/Home/Home';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
 import Login from './Components/Login/Login';
 //import {Offline} from 'react-detect-offline'
@@ -42,7 +42,14 @@ function App() {
       children: [
         { index: true, element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
         { path: 'tv', element: <ProtectedRoute userData={userData}><Tv /></ProtectedRoute> },
-        { path: 'movie', element: <ProtectedRoute userData={userData}><Movie /></ProtectedRoute> },
+        {
+          path: 'movie',
+          element: <ProtectedRoute userData={userData}><Movie /></ProtectedRoute>,
+          children: [
+            { index: true, element: <Movie type="popular" /> }, // Afficher "popular" par défaut
+            { path: ':type', element: <Movie /> } // Gestion des autres types
+          ]
+        },
         { path: 'people', element: <ProtectedRoute userData={userData}><People /></ProtectedRoute> },
         { path: 'profile', element: <ProtectedRoute userData={userData}><Profile userData={userData} /></ProtectedRoute> },
         { path: 'itemDetails/:id/:media_type', element: <ProtectedRoute userData={userData}><ItemDetails /></ProtectedRoute> },
