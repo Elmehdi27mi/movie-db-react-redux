@@ -17,7 +17,7 @@ export default function Navbar({ logOut, userData }) {
                   Movies
                 </Link>
                 <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
-                  <li><Link className="dropdown-item" to="movie">Popular</Link></li>
+                  <li><Link className="dropdown-item" to="movie/popular">Popular</Link></li>
                   <li><Link className="dropdown-item" to="movie/now_playing">Now Playing</Link></li>
                   <li><Link className="dropdown-item" to="movie/upcoming">Upcoming</Link></li>
                   <li><Link className="dropdown-item" to="movie/top_rated">Top Rated</Link></li>

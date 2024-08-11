@@ -61,10 +61,10 @@ export default function ItemContent({title, subtitle, mediatype}) {
             </div>
    
             <div className='col-md-9  ps-md-5 ps-ms-0  p-0'>
-              <div className="carousel-container px-2 ">    
+              <div className="carousel-container px-3 ">    
                 <Swiper
                     modules={[Scrollbar, Pagination]}
-                    spaceBetween={0}
+                    spaceBetween={14}
                     slidesPerView={8}
                     scrollbar={{ draggable: true }}
                 
@@ -93,7 +93,7 @@ export default function ItemContent({title, subtitle, mediatype}) {
       <div className="mt-4">
             <Swiper
                 modules={[Scrollbar, Pagination]}
-                spaceBetween={12}
+                spaceBetween={14}
                 slidesPerView={8}
                 scrollbar={{ draggable: true }}
                 breakpoints={{

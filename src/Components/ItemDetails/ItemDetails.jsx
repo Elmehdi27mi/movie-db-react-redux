@@ -247,7 +247,7 @@ export default function ItemDetails() {
         <h4 className='mainColor m-3 fw-bolder'>Recommendations</h4>
         <Swiper
           modules={[ Scrollbar, Pagination]}
-          spaceBetween={5} // Ajuster l'espacement entre les éléments
+          spaceBetween={12} // Ajuster l'espacement entre les éléments
           slidesPerView={8}
           scrollbar={{ draggable: true }}
 
@@ -264,7 +264,7 @@ export default function ItemDetails() {
           }}
         >
           {relatedMovies.map((movie, index) => (
-            movie.poster_path && (
+            movie.poster_path && movie.vote_average &&(
               <SwiperSlide key={index}>
                 <SliderItem item={movie} />
               </SwiperSlide>

@@ -20,7 +20,13 @@ body {
   --second-font-color:#949cb0;
   --main-font : "Montserrat Alternates", sans-serif;
   --gradient: linear-gradient(90deg, var(--bg-color),#24baef 100%);
-  --black: #0a254a;
+  
+  --black: #04152d;
+  --black2: #041226;
+  --black3: #020c1b;
+  --black-lighter: #1c4b91;
+  --black-light: #173d77;
+
 
 }
 .carouselTitle {
@@ -529,8 +535,8 @@ a{
           cursor: pointer;
           transition: all ease 0.3s;
           &:hover {
-              box-shadow: 0 0 0.625em var(--pink);
-              color: var(--pink);
+              box-shadow: 0 0 0.625em var(--light-bg-color);
+              color: var(--black-light);
           }
       }
   }
@@ -540,6 +546,63 @@ a{
 }
 
 
+/* Styles CSS pour le sélecteur personnalisé */
+
+.react-select-container .react-select__control {
+  background-color: var(--bg-color) ; 
+  border-radius: 50px;
+  width: 260px;
+  
+}
+
+.react-select-container .react-select__value-container {
+  color: #fff ;
+}
+
+.react-select-container .react-select__single-value {
+  color: #fff ;
+}
+
+.react-select-container .react-select__menu {
+  background-color: var(--bg-color) ;
+  color: #fff ;
+}
+
+.react-select-container .react-select__option {
+  background-color: var(--bg-color) ;
+  color: #fff ;
+}
+
+.react-select-container .react-select__option--is-focused {
+  background-color: var(--black-lighter) ;
+}
+
+.react-select-container .react-select__option--is-selected {
+  background-color: var(--black-light) ;
+}
 
 
+.custom-pagination {
+  display: flex;
+  justify-content: center;
 
+}
+
+.custom-pagination .page-item {
+  margin: 0 3px;
+ 
+}
+
+.custom-pagination .page-link {
+  color: var(--black);
+  transition: background-color 0.6s;
+ 
+  border-radius: 50%;
+}
+
+
+.custom-pagination .active .page-link {
+  background-color: var(--black);
+  color: white;
+  border-color: var(--black);
+}

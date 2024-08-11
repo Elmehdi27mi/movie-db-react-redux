@@ -15,7 +15,7 @@ export default function SliderItem({ item }) {
   }
 
   return (
-    <div className="px-2 w-100 ">
+    <div className=" w-100 ">
       <Link to={`/itemDetails/${item.id}/${item.media_type}`}>
         <div className="movie">
           <div className="container-img-vote position-relative">

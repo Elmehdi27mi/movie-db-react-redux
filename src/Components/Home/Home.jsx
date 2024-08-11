@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import MediaItem from '../MediaItem/MediaItem';
 import { Helmet } from 'react-helmet';
 import { useDispatch, useSelector } from 'react-redux';
 import { getTrending } from '../../Redux/moviesslice';

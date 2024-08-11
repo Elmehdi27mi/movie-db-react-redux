@@ -43,12 +43,9 @@ function App() {
         { index: true, element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
         { path: 'tv', element: <ProtectedRoute userData={userData}><Tv /></ProtectedRoute> },
         {
-          path: 'movie',
+          path: 'movie/:type',
           element: <ProtectedRoute userData={userData}><Movie /></ProtectedRoute>,
-          children: [
-            { index: true, element: <Movie type="popular" /> }, // Afficher "popular" par défaut
-            { path: ':type', element: <Movie /> } // Gestion des autres types
-          ]
+    
         },
         { path: 'people', element: <ProtectedRoute userData={userData}><People /></ProtectedRoute> },
         { path: 'profile', element: <ProtectedRoute userData={userData}><Profile userData={userData} /></ProtectedRoute> },
