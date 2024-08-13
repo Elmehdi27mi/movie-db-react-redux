@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
 export let getTrending = createAsyncThunk('media/trending', async (mediaType) => {
     let { data } = await axios.get(`https://api.themoviedb.org/3/trending/${mediaType}/week?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
     return { mediaType, results: data.results };
@@ -8,18 +7,56 @@ export let getTrending = createAsyncThunk('media/trending', async (mediaType) =>
 
 export const getPopularMovies = createAsyncThunk(
   'media/popularMovies',
-  async ({ type, page = 1 }) => {
-    let allMovies = [];
-    let totalepage=0;
-      let { data } = await axios.get(
-        `https://api.themoviedb.org/3/movie/${type}?api_key=b22e299473a6bd3b4ae42b1953fbd4b6&page=${page}`
-      );
-      allMovies = [...allMovies, ...data.results];
-      totalepage=data.total_pages;
+  async ({ mediaType = 'movie', page = 1, filters = {} }) => {
+    // Ajouter les paramètres fixes nécessaires
+    let filterParams = {
+      api_key: 'b22e299473a6bd3b4ae42b1953fbd4b6',
+      language: 'en-US',
+      page,
+      ...filters
+    };
 
-    return {allMovies, totalepage};
+    let queryString = new URLSearchParams(filterParams).toString();
+
+    let url = `https://api.themoviedb.org/3/discover/${mediaType}?${queryString}`;
+
+    let { data } = await axios.get(url);
+ 
+   
+    return {
+      allMovies: data.results,
+      totalepage: data.total_pages
+    };
   }
 );
+
+
+export let getItemsByType = createAsyncThunk(
+  'media/getItemsByType',
+  async ({type="popular", mediaType = 'movie', page = 1}) => {
+    let { data } = await axios.get(`https://api.themoviedb.org/3/${mediaType}/${type}?api_key=b22e299473a6bd3b4ae42b1953fbd4b6&page=${page}`);
+    console.log("///////////////////////////////");
+    console.log(data.total_pages);
+    return   {
+      itemsByType: data.results,
+    totalepage: data.total_pages};
+  }
+);
+
+export let getItemsBySearch = createAsyncThunk(
+  'media/getItemsBySearch',
+  async ({ query = "", page = 1 }) => {
+    let { data } = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=b22e299473a6bd3b4ae42b1953fbd4b6&page=${page}&query=${query}`);
+    console.log("///////////////////////////////");
+    console.log(data.total_pages);
+    return {
+      itemsBySearch: data.results,  // Corrigez ici aussi, c'était incorrect
+      totalepage: data.total_pages
+    };
+  }
+);
+
+
 
 
   export let getGenreItems = createAsyncThunk('media/genreItems', async () => {
@@ -34,6 +71,8 @@ export let initialState = {
     trendingPeople: [],
     popularMovies: [],
     genreItems:[],
+    itemsByType:[],
+    itemsBySearch:[],
     getTotalePage:0,
     loading: false,
 };
@@ -52,15 +91,62 @@ let mediaSlice = createSlice({
         state.trendingPeople = results;
       }
     });
-    builder.addCase(getPopularMovies.fulfilled, (state, action) => {
+    builder
+    .addCase(getPopularMovies.pending, (state) => {
+      state.loading = true; // Début du chargement
+    })
+    .addCase(getPopularMovies.fulfilled, (state, action) => {
       const { allMovies, totalepage } = action.payload;
-      state.popularMovies = allMovies; // Mettre à jour avec les films populaires
-      state.getTotalePage = totalepage; // Mettre à jour avec le nombre total de pages
-    });
+      state.popularMovies = allMovies;
+      state.getTotalePage = totalepage;
+      state.loading = false; // Fin du chargement
+    })
+    .addCase(getPopularMovies.rejected, (state) => {
+      state.loading = false; // Fin du chargement même en cas d'erreur
+    })
     builder.addCase(getGenreItems.fulfilled, (state, action) => {
       state.genreItems = action.payload;
     });
+
+
+
+    builder
+    .addCase(getItemsByType.pending, (state) => {
+      state.loading = true; // Début du chargement
+    })
+    .addCase(getItemsByType.fulfilled, (state, action) => {
+     const {itemsByType,totalepage} = action.payload;
+     state.itemsByType=itemsByType;
+     state.getTotalePage=totalepage;
+      state.loading = false; // Fin du chargement
+    })
+    .addCase(getItemsByType.rejected, (state) => {
+      state.loading = false; // Fin du chargement même en cas d'erreur
+    })
+
+
+
+
+    builder
+    .addCase(getItemsBySearch.pending, (state) => {
+      state.loading = true; // Début du chargement
+    })
+    .addCase(getItemsBySearch.fulfilled, (state, action) => {
+      const { itemsBySearch, totalepage } = action.payload;  // Corrigez ici
+      state.itemsBySearch=itemsBySearch;
+     state.getTotalePage=totalepage;
+      state.loading = false; // Fin du chargement
+    })
+    .addCase(getItemsBySearch.rejected, (state) => {
+      state.loading = false; // Fin du chargement même en cas d'erreur
+    })
+
+
   },
+
+
+
+
 });
 
 

@@ -1,11 +1,11 @@
 import './App.css';
 import Home from './Components/Home/Home';
-import { Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
 import Login from './Components/Login/Login';
 //import {Offline} from 'react-detect-offline'
-import Tv from './Components/Tv/Tv';
 import Movie from './Components/Movie/Movie';
+import Search from './Components/Search/Search'
 import People from './Components/People/People';
 import Register from './Components/Register/Register';
 import { useEffect, useState } from 'react';
@@ -16,6 +16,7 @@ import ItemDetails from './Components/ItemDetails/ItemDetails';
 import { Provider } from 'react-redux';
 import store from './Redux/Store';
 import { jwtDecode } from 'jwt-decode';
+import Explore from './Components/Explore/Explore';
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -30,10 +31,8 @@ function App() {
     let encodedToken = localStorage.getItem('access_token');
    
       let decodedToken = jwtDecode(encodedToken);
-      console.log(decodedToken.user); // Ensure this logs the expected user object
-      setUserData(decodedToken.user); // Set the userData state correctly
-      console.log(userData);
-    
+      setUserData(decodedToken.user); 
+   
   }
   let routers = createBrowserRouter([
     {
@@ -41,12 +40,17 @@ function App() {
       element: <Layout setUserData={setUserData} userData={userData} />,
       children: [
         { index: true, element: <ProtectedRoute userData={userData}><Home /></ProtectedRoute> },
-        { path: 'tv', element: <ProtectedRoute userData={userData}><Tv /></ProtectedRoute> },
         {
-          path: 'movie/:type',
-          element: <ProtectedRoute userData={userData}><Movie /></ProtectedRoute>,
+          path: '/',
+          children:[
+            { path: 'tv/:type', element: <ProtectedRoute userData={userData}><Movie mediaType='tv' /></ProtectedRoute> },
+           {path: 'movie/:type', element: <ProtectedRoute userData={userData}><Movie mediaType='movie'/></ProtectedRoute>}
+
+          ]
     
         },
+        { path: 'explore', element: <ProtectedRoute userData={userData}><Explore /></ProtectedRoute> },
+        { path: 'search/:query', element: <ProtectedRoute userData={userData}><Search /></ProtectedRoute> },
         { path: 'people', element: <ProtectedRoute userData={userData}><People /></ProtectedRoute> },
         { path: 'profile', element: <ProtectedRoute userData={userData}><Profile userData={userData} /></ProtectedRoute> },
         { path: 'itemDetails/:id/:media_type', element: <ProtectedRoute userData={userData}><ItemDetails /></ProtectedRoute> },

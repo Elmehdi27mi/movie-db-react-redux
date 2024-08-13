@@ -60,9 +60,7 @@ export default function Login({saveUserData}) {
             setErrList(validation.error.details);
         }else{
              sendLoginToApi();
-        }
-       
-       
+        } 
     }
 
 

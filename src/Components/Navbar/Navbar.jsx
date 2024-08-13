@@ -8,7 +8,7 @@ export default function Navbar({ logOut, userData }) {
         <div className="left-nav d-flex flex-column flex-md-row align-items-center">
           <h1 className="pe-3 m-0">Noxe</h1>
           {userData ? (
-            <ul className="list-unstyled d-flex flex-column flex-md-row align-items-center m-0">
+            <ul className="list-unstyled d-flex flex-column flex-md-row align-items-center m-0 me-3">
               <li className="px-2 pb-1">
                 <Link to="/">Home</Link>
               </li>
@@ -38,7 +38,7 @@ export default function Navbar({ logOut, userData }) {
                 <Link to="people">People</Link>
               </li>
               <li className="px-2 pb-1">
-                <Link to="/">About</Link>
+                <Link to="explore">Explore</Link>
               </li>
             </ul>
           ) : (

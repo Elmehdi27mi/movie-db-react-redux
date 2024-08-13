@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import CircularChart from '../CircularChart/CircularChart';
-
+import noPoster from '../../assets/no-poster.png';
 export default function SliderItem({ item }) {
   const votePercentage = item.vote_average ? (item.vote_average / 10) * 100 : 0;
 
@@ -30,7 +30,7 @@ export default function SliderItem({ item }) {
           ) : (
             <img
               className="w-100 rounded-2"
-              src={`https://image.tmdb.org/t/p/w500/${item.profile_path}`}
+              src={noPoster}
               alt={item.title || item.name}
             />
           )}

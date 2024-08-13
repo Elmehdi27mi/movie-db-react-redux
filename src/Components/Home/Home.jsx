@@ -16,16 +16,19 @@ export default function Home() {
     useEffect(() => {
         dispatch(getTrending('person'));
     }, []);
-
     return (
         <>
             <Helmet>
                 <meta charSet='utf-8' />
                 <title>Home Page</title>
             </Helmet>
-            <div className="container">
-                <Header/>
+           
+            <div className=" container-md p-0">
+  <Header />
+</div>
 
+
+                <div className="container">
                 <div className="mt-5">
                 <ItemContent  title="Movie" subtitle="movies" mediatype="movie"/>
                 </div>

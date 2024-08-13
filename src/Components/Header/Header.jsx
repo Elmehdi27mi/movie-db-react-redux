@@ -7,7 +7,11 @@ import image3 from '../../assets/image3.jpg';
 import image4 from '../../assets/image4.jpg';
 import image5 from '../../assets/image5.jpg';
 import image6 from '../../assets/image6.jpg';
+import { useNavigate } from 'react-router-dom';
  function Header() {
+  
+  const [query, setQuery] = useState("");
+  const navigate =useNavigate();
   // Array of images and titles
   const images = [
     { src: image1, title: 'Image 1 Title' },
@@ -18,6 +22,14 @@ import image6 from '../../assets/image6.jpg';
     { src: image6, title: 'Image 6 Title' },
     // Add more images as needed
   ];
+
+
+  const searchQueryHandler = (e) => {
+    e.preventDefault();
+    if (query.length > 0) {
+      navigate(`/search/${query}`);
+    }
+  };
 
   const [randomImage, setRandomImage] = useState(null);
 
@@ -38,10 +50,25 @@ import image6 from '../../assets/image6.jpg';
           alt={randomImage.title}
           style={{ maxHeight: '500px', objectFit: 'cover' }} // Ensures images fit within the container
         />
-        <div className=" position-absolute top-50 start-0 translate-middle-y ms-5">
-          <h1 className="text-light fw-bolder">Welcome.</h1>
+        <div className=" position-absolute top-50 start-0 translate-middle-y ms-5 ">
+          <h1 className="text-light fw-bolder m-md-0">Welcome.</h1>
           <h2 className="text-light fw-bolder">Millions of movies, TV shows and people to discover. Explore now.</h2>
+          <div className="searchInput mt-md-5 mx-auto">
+            <form onSubmit={searchQueryHandler} className='w-100'>
+            <input
+              type="text"
+              placeholder="Search for a movie or tv show...."
+              onChange={(e) =>{
+                setQuery(e.target.value)
+              }
+              }
+            />
+            <button >Search</button>
+            </form>
+          </div>
         </div>
+        
+        
       </div>
 
   );
