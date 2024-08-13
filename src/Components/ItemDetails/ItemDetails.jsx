@@ -110,7 +110,7 @@ export default function ItemDetails() {
                 </button>
                 {trailers.length > 0 && (
                   <a href={`https://www.youtube.com/watch?v=${trailers[0].key}`} target="_blank" rel="noopener noreferrer" className="btn btn-outline-primary">
-                    <i class="fa-solid fa-play me-2"></i> Play Trailer
+                    <i className="fa-solid fa-play me-2"></i> Play Trailer
                   </a>
                 )}
               </div>

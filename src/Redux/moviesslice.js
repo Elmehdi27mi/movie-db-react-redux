@@ -22,9 +22,12 @@ export const getPopularMovies = createAsyncThunk(
 
     let { data } = await axios.get(url);
  
-   
+    const moviesWithMediaType = data.results.map(movie => ({
+      ...movie,
+      media_type: mediaType
+    }));
     return {
-      allMovies: data.results,
+      allMovies: moviesWithMediaType,
       totalepage: data.total_pages
     };
   }
@@ -35,10 +38,13 @@ export let getItemsByType = createAsyncThunk(
   'media/getItemsByType',
   async ({type="popular", mediaType = 'movie', page = 1}) => {
     let { data } = await axios.get(`https://api.themoviedb.org/3/${mediaType}/${type}?api_key=b22e299473a6bd3b4ae42b1953fbd4b6&page=${page}`);
-    console.log("///////////////////////////////");
-    console.log(data.total_pages);
+
+    const moviesWithMediaType = data.results.map(movie => ({
+      ...movie,
+      media_type: mediaType
+    }));
     return   {
-      itemsByType: data.results,
+      itemsByType: moviesWithMediaType,
     totalepage: data.total_pages};
   }
 );
