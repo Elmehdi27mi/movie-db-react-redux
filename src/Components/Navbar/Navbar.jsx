@@ -29,9 +29,9 @@ export default function Navbar({ logOut, userData }) {
                 </Link>
                 <ul className="dropdown-menu border-0 shadow bsb-zoomIn" aria-labelledby="accountDropdown">
                   <li><Link className="dropdown-item" to="tv/popular">Popular</Link></li>
-                  <li><Link className="dropdown-item" to="tv/now-playing">Airing Today</Link></li>
-                  <li><Link className="dropdown-item" to="tv/upcoming">On Tv</Link></li>
-                  <li><Link className="dropdown-item" to="tv/top-rated">Top Rated</Link></li>
+                  <li><Link className="dropdown-item" to="tv/airing_today">Airing Today</Link></li>
+                  <li><Link className="dropdown-item" to="tv/on_the_air">On Tv</Link></li>
+                  <li><Link className="dropdown-item" to="tv/top_rated">Top Rated</Link></li>
                 </ul>
               </li>
               <li className="px-2 pb-1">

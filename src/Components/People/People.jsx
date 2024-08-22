@@ -1,51 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getTrending } from '../../Redux/moviesslice';
+import ResponsivePagination from 'react-responsive-pagination';
+import 'react-responsive-pagination/themes/classic.css';
+import PersonSlider from '../PersonSlider/PersonSlider';
 
-// Import local images from the `src/assets/` directory
-import image1 from '../../assets/image1.jpg';
-import image2 from '../../assets/image2.jpg';
-import image3 from '../../assets/image3.jpg';
-import image4 from '../../assets/image4.jpg';
-import image5 from '../../assets/image5.jpg';
-import image6 from '../../assets/image6.jpg';
 
-function People() {
-  // Array of images and titles
-  const images = [
-    { src: image1, title: 'Image 1 Title' },
-    { src: image2, title: 'Image 2 Title' },
-    { src: image3, title: 'Image 3 Title' },
-    { src: image4, title: 'Image 4 Title' },
-    { src: image5, title: 'Image 5 Title' },
-    { src: image6, title: 'Image 6 Title' },
-    // Add more images as needed
-  ];
-
-  const [randomImage, setRandomImage] = useState(null);
+export default function Explore() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const dispatch = useDispatch();
+  const popularPeople = useSelector((state) => state.media.popularPeople);
+  const totalePages = useSelector((state) => state.media.getTotalePage);
+  const loading = useSelector((state) => state.media.loading);
 
   useEffect(() => {
-    // Select a random image from the array
-    const randomIndex = Math.floor(Math.random() * images.length);
-    setRandomImage(images[randomIndex]);
-  }, []); // Only run on initial render
+    dispatch(getTrending({ mediaType: "person", page: currentPage }));
+  }, [dispatch, currentPage]);
 
-  if (!randomImage) return null; // In case of loading
+ 
 
   return (
-   
-      <div className="position-relative">
-        <img
-          src={randomImage.src}
-          className="img-fluid w-100"
-          alt={randomImage.title}
-          style={{ maxHeight: '500px', objectFit: 'cover' }} // Ensures images fit within the container
-        />
-        <div className=" position-absolute top-50 start-0 translate-middle-y ms-5">
-          <h1 className="text-light fw-bolder">Welcome.</h1>
-          <h2 className="text-light fw-bolder">Millions of movies, TV shows and people to discover. Explore now.</h2>
-        </div>
+    <div className="item container pt-5">
+        <div className="title">
+        <h3 className='mb-2 mainColor'>Popular People</h3>
       </div>
 
+      {/* Affichage du spinner ou des films */}
+      {loading ? (
+        <div className=" d-flex justify-content-center align-items-center vh-100">
+         <i className='fas fa-spinner mainColor mb-5 fa-spin fa-4x'></i>
+        </div>
+      ) : (
+        <>
+          <div className="row">
+            {popularPeople && popularPeople.slice(0, 18).map((person, index) => (
+
+                 <div key={index} className='col-md-2 d-flex col-sm-3'>
+                <PersonSlider item={person} />
+              </div>
+            ))}
+          </div>
+
+          {/* Pagination */}
+          {totalePages > 0 && (
+            <div className="pagination my-5 w-50 mx-auto">
+              <div className='mx-auto w-100'>
+              <ResponsivePagination
+                current={currentPage}
+                total={totalePages}
+                onPageChange={setCurrentPage}
+                className="custom-pagination"
+              />
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </div>
   );
 }
-
-export default People;

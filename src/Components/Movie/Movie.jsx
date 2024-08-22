@@ -13,21 +13,45 @@ export default function Movie({mediaType}) {
   const totalePages = useSelector((state) => state.media.getTotalePage);
   const loading = useSelector((state) => state.media.loading); // Accéder à l'état de chargement
   const{type}= useParams();
-
+const [title,setTitle]=useState("");
   useEffect(() => {
-    console.log('Media Type:', mediaType);
-    console.log('Current Page:', currentPage);
-    console.log('Total Pages:', totalePages);
     dispatch(getItemsByType({ type, mediaType, page: currentPage }));
+    afficheTitle(type);
   }, [dispatch, type, mediaType, currentPage, totalePages]);
   
   
 
+const afficheTitle=(type)=>{
 
+  if(type==="now_playing")
+    setTitle("Now Playing")
+
+  if(type==="upcoming")
+    setTitle("Upcoming")
+
+  if(type==="top_rated")
+    setTitle("Top Rated")
+
+  if(type==="popular")
+    setTitle("Popular")
+  if(type==="airing_today")
+    setTitle("Airing Today")
+  
+  if(type==="on_the_air")
+    setTitle("On Tv")
+
+  if(type==="airing_today")
+    setTitle("Airing Today")
+
+   
+}
 
 
   return (
     <div className="item container pt-5">
+      <div className="title">
+        <h3 className='mb-2 mainColor'>{title}</h3>
+      </div>
           {/* Affichage du spinner ou des films */}
       {loading ? (
          <div className=" d-flex justify-content-center  align-items-center  vh-100">
@@ -37,7 +61,7 @@ export default function Movie({mediaType}) {
         <>
           <div className="row">
             {items && items.slice(0, 18).map((movie, index) => (
-              <div key={index} className='col-md-2 d-flex'>
+              <div key={index} className='col-md-2 d-flex col-sm-3'>
                 <SliderItem item={movie} />
               </div>
             ))}
@@ -46,12 +70,14 @@ export default function Movie({mediaType}) {
           {/* Pagination */}
           {totalePages > 0 && (
             <div className="pagination my-5 w-50 mx-auto">
+              <div className='mx-auto w-100'>
               <ResponsivePagination
                 current={currentPage}
                 total={totalePages}
                 onPageChange={setCurrentPage}
                 className="custom-pagination"
               />
+              </div>
             </div>
           )}
         </>

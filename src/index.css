@@ -1,55 +1,64 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+
 /* src/index.css ou src/App.css */
 @import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates&display=swap');
 
-body {
-    font-family: 'Montserrat Alternates', sans-serif;
-    margin: 0;
-    padding: 0;
-}
 
 :root{
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-    --bg-color:#131722;
+  --main-font : "Montserrat Alternates", sans-serif;
+  --second-font:Inter, Avenir, Helvetica, Arial, sans-serif;
+  --bg-color:#131722;
   --light-bg-color:#24baef;
   --bg-transparent:rgba(36,186,239,.6);
   --font-color:#fff;
   --border: color #a8a8a83d;
   --border-height:1px;
   --second-font-color:#949cb0;
-  --main-font : "Montserrat Alternates", sans-serif;
   --gradient: linear-gradient(90deg, var(--bg-color),#24baef 100%);
-  
   --black: #04152d;
   --black2: #041226;
   --black3: #020c1b;
   --black-lighter: #1c4b91;
   --black-light: #173d77;
+}
 
 
-}
-.carouselTitle {
-  font-size: 24px;
-  color: white;
-  margin-bottom: 20px;
-  font-weight: normal;
-}
 body{
   background-color: #fafafa;
   font-family: var(--main-font);
-  color:var(--font-color)
+  margin: 0;
+  padding: 0;
+  color: var(--font-color);
 
 }
+
+
+
+
+/* .font-main {
+  font-family: var(--main-font);
+} */
+
+.font-secondary {
+  font-family: var(--second-font);
+}
+
+
+.carouselTitle {
+  font-size: 24px;
+  color: var(--font-color);
+  margin-bottom: 20px;
+  font-weight: normal;
+
+}
+
+
 a{
   color:var(--font-color);
   text-decoration: none;
 }
-.my-input{
-  background-color: transparent;
-  border: solid 1px #a8a8a83d ;
-  color: #fff;
-}
+
 .cursor-pointer{
   cursor: pointer;
 }
@@ -374,7 +383,7 @@ a{
    overflow: hidden; 
    background-repeat: no-repeat;
    background-size: cover;
-   background-position: left center;
+   background-position: center center;
    
    /* Assure que l'image de fond ne dépasse pas les limites de l'élément */
  }
@@ -615,39 +624,40 @@ a{
   display: flex;
   align-items: center;
   width: 100%;
-  input {
-      width: calc(100% - 100px);
-      height: 40px;
-      background-color: white;
-      outline: 0;
-      border: 0;
-      border-radius: 30px 0 0 30px;
-      padding: 0 15px;
-      font-size: 14px;
-      @include md {
-          width: calc(100% - 150px);
-          height: 60px;
-          font-size: 20px;
-          padding: 0 30px;
-      }
-  }
-  button {
-      width: 100px;
-      height: 40px;
-      background: var(--gradient);
-      color: white;
-      outline: 0;
-      border: 0;
-      border-radius: 0 30px 30px 0;
-      font-size: 16px;
-      cursor: pointer;
-      @include md {
-          width: 150px;
-          height: 60px;
-          font-size: 18px;
-      }
+
+}
+
+.searchInput input {
+  width: calc(100% - 100px);
+  height: 46px;
+  background-color: white;
+  outline: 0;
+  border: 0;
+  border-radius: 30px 0 0 30px;
+  padding: 0 15px;
+  font-size: 14px;
+  @include md {
+      width: calc(100% - 150px);
+      height: 60px;
+      font-size: 20px;
+      padding: 0 30px;
   }
 }
+
+.searchInput button {
+  width: 100px;
+  height: 46px;
+  background: var(--gradient);
+  color: white;
+  outline: 0;
+  border: 0;
+  border-radius: 0 30px 30px 0;
+  font-size: 16px;
+  cursor: pointer;
+
+}
+
+
 .custom-container {
  
   margin-right: 0px;
@@ -662,3 +672,17 @@ a{
   }
 }
 
+/* src/App.css */
+#nprogress .bar {
+  background: #29d;
+  height: 3px;
+}
+
+#nprogress .peg {
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #29d;
+  border-left-color: #29d;
+}

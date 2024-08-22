@@ -41,20 +41,15 @@ import { useNavigate } from 'react-router-dom';
 
   if (!randomImage) return null; // In case of loading
 
-  return (
-   
-      <div className="position-relative">
-        <img
-          src={randomImage.src}
-          className="img-fluid w-100"
-          alt={randomImage.title}
-          style={{ maxHeight: '500px', objectFit: 'cover' }} // Ensures images fit within the container
-        />
-        <div className=" position-absolute top-50 start-0 translate-middle-y ms-5 ">
-          <h1 className="text-light fw-bolder m-md-0">Welcome.</h1>
+  return <>
+
+<div className="image-container-home mx-xxl-4 mx-0" style={{ backgroundImage: `url(${randomImage.src})` }}>
+                      
+        <div className="py-5 px-4">
+          <h1 className="text-light fw-bolder  mt-3">Welcome.</h1>
           <h2 className="text-light fw-bolder">Millions of movies, TV shows and people to discover. Explore now.</h2>
-          <div className="searchInput mt-md-5 mx-auto">
-            <form onSubmit={searchQueryHandler} className='w-100'>
+          <div className="searchInput mt-5 mx-auto mb-3 mb-sm-2  ">
+            <form onSubmit={searchQueryHandler} className='w-100 mb-2'>
             <input
               type="text"
               placeholder="Search for a movie or tv show...."
@@ -68,10 +63,10 @@ import { useNavigate } from 'react-router-dom';
           </div>
         </div>
         
-        
-      </div>
+                    </div>
+             
 
-  );
+      </>;
 }
 
 export default Header;

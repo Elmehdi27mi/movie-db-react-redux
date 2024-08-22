@@ -1,9 +1,30 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-export let getTrending = createAsyncThunk('media/trending', async (mediaType) => {
-    let { data } = await axios.get(`https://api.themoviedb.org/3/trending/${mediaType}/week?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
-    return { mediaType, results: data.results };
+export let getTrending = createAsyncThunk('media/trending', async ({mediaType = 'movie', page = 1,endpoint='week'}) => {
+    let { data } = await axios.get(`https://api.themoviedb.org/3/trending/${mediaType}/${endpoint}?api_key=b22e299473a6bd3b4ae42b1953fbd4b6&page=${page}`);
+    return { mediaType, results: data.results,totalepage: data.total_pages };
 });
+
+
+export const fetchTrendingAndVideos = createAsyncThunk(
+  'media/fetchTrendingAndVideos',
+  async ({ mediaType, endpoint }) => {
+    const trendingResponse = await axios.get(`https://api.themoviedb.org/3/trending/${mediaType}/${endpoint}?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
+    const trending = trendingResponse.data.results;
+    
+    const videoPromises = trending.map(async (item) => {
+      const videoResponse = await axios.get(`https://api.themoviedb.org/3/${mediaType}/${item.id}/videos?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
+      return { ...item, videos: videoResponse.data.results };
+    });
+    
+    const moviesWithVideos = await Promise.all(videoPromises);
+    return { mediaType, trending, moviesWithVideos }; // Ajoutez mediaType ici pour différencier les résultats
+  }
+)
+
+
+
+
 
 export const getPopularMovies = createAsyncThunk(
   'media/popularMovies',
@@ -67,36 +88,55 @@ export let getItemsBySearch = createAsyncThunk(
 
   export let getGenreItems = createAsyncThunk('media/genreItems', async () => {
     let { data } = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
-    return data.genres; // Ici, nous retournons directement les genres
+    return data.genres; 
   });
   
 
-export let initialState = {
+  export let initialState = {
     trendingMovies: [],
     trendingTv: [],
-    trendingPeople: [],
+    popularPeople: [],
     popularMovies: [],
-    genreItems:[],
-    itemsByType:[],
-    itemsBySearch:[],
-    getTotalePage:0,
+    genreItems: [],
+    itemsByType: [],
+    itemsBySearch: [],
+    tvWithVideos:[],
+    tvTrending:[],
+    movieWithVideos:[],
+    movieTrending:[],
+    trending: [], 
+    getTotalePage: 0,
     loading: false,
-};
+  };
+  
 
 let mediaSlice = createSlice({
   name: 'media',
   initialState,
   extraReducers: (builder) => {
-    builder.addCase(getTrending.fulfilled, (state, action) => {
-      const { mediaType, results } = action.payload;
+
+
+    builder
+    .addCase(getTrending.pending, (state) => {
+      state.loading = true; // Début du chargement
+    })
+    .addCase(getTrending.fulfilled, (state, action) => {
+      const { mediaType, results , totalepage } = action.payload;
       if (mediaType === 'movie') {
         state.trendingMovies = results;
+        state.getTotalePage = totalepage;
       } else if (mediaType === 'tv') {
         state.trendingTv = results;
+        state.getTotalePage = totalepage;
       } else if (mediaType === 'person') {
-        state.trendingPeople = results;
+        state.popularPeople = results;
+        state.getTotalePage = totalepage;
       }
+    })
+    .addCase(getTrending.rejected, (state) => {
+      state.loading = false; 
     });
+ 
     builder
     .addCase(getPopularMovies.pending, (state) => {
       state.loading = true; // Début du chargement
@@ -114,6 +154,29 @@ let mediaSlice = createSlice({
       state.genreItems = action.payload;
     });
 
+
+
+    builder
+    .addCase(fetchTrendingAndVideos.fulfilled, (state, action) => {
+      const { mediaType, trending, moviesWithVideos } = action.payload;
+      
+      // Séparer les résultats par type de média
+      if (mediaType === 'movie') {
+        state.movieTrending = trending;
+        state.movieWithVideos = moviesWithVideos;
+      } else if (mediaType === 'tv') {
+        state.tvTrending = trending;
+        state.tvWithVideos = moviesWithVideos;
+      }
+
+      state.loading = false;
+    })
+    .addCase(fetchTrendingAndVideos.pending, (state) => {
+      state.loading = true;
+    })
+    .addCase(fetchTrendingAndVideos.rejected, (state) => {
+      state.loading = false;
+    });
 
 
     builder

@@ -100,7 +100,7 @@ export default function Explore() {
           <div className="row">
             {popularMovies && popularMovies.slice(0, 18).map((movie, index) => (
 
-                 <div key={index} className='col-md-2 d-flex'>
+                 <div key={index} className='col-md-2 d-flex col-sm-3'>
                 <SliderItem item={movie} />
               </div>
             ))}
@@ -109,12 +109,14 @@ export default function Explore() {
           {/* Pagination */}
           {totalePages > 0 && (
             <div className="pagination my-5 w-50 mx-auto">
+              <div className='mx-auto w-100'>
               <ResponsivePagination
                 current={currentPage}
                 total={totalePages}
                 onPageChange={setCurrentPage}
                 className="custom-pagination"
               />
+              </div>
             </div>
           )}
         </>

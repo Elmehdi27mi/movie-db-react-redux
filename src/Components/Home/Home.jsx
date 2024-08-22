@@ -12,10 +12,13 @@ import PersonSlider from '../PersonSlider/PersonSlider';
 
 export default function Home() {
     const dispatch = useDispatch();
-    const { trendingPeople } = useSelector((state) => state.media);
+    const popularPeople = useSelector((state) => state.media.popularPeople);
+    const loading = useSelector((state) => state.media.loading);
+
     useEffect(() => {
-        dispatch(getTrending('person'));
-    }, []);
+        dispatch(getTrending({ mediaType: "person"}));
+        console.log(popularPeople);
+    }, [dispatch]);
     return (
         <>
             <Helmet>
@@ -23,20 +26,19 @@ export default function Home() {
                 <title>Home Page</title>
             </Helmet>
            
-            <div className=" container-md p-0">
-  <Header />
-</div>
+            <div className=" container-xxl p-0 conta">
+                <Header />
+                </div>
 
-
-                <div className="container">
+                <div className="container-xxl">
                 <div className="mt-5">
                 <ItemContent  title="Movie" subtitle="movies" mediatype="movie"/>
                 </div>
           
-                <div className=" my-5 ">
-                    <div className="position-relative w-100 image-container-home" style={{ backgroundImage: `url(${image111})` }}>
+                <div className=" my-5  mx-xxl-2 mx-0">
+                    <div className=" image-container-home" style={{ backgroundImage: `url(${image111})` }}>
                         <div className='m-5'>
-                        <h3>Joind our github </h3>
+                        <h3 >Joind our github </h3>
                         <p>Loreabore natus provident omnis accusantium asperiores explicabo nulla nihil quam, qui consequatur! Impedit suscipit consequuntur atque et ipsum architecto fugit,  illo.
                         Saepe vero rep.</p>
                         <button className='btn btn-secondary px-5 py-2 mt-4'>Github</button>
@@ -49,7 +51,7 @@ export default function Home() {
                 </div>
 
                 <div className=" my-5 ">
-                    <div className="position-relative w-100 image-container-home" style={{ backgroundImage: `url(${image114})` }}>
+                    <div className="image-container-home mx-xxl-2 mx-0" style={{ backgroundImage: `url(${image114})` }}>
                         <div className='m-5'>
                         <h3>Join Today </h3>
                         <p>Get access to maintain your own custom personal lists, track what you've seen and search and filter for what to watch next—regardless if it's in theatres, on TV or available on popular streaming services like Netflix, Amazon Prime Video, Disney Plus, Apple TV Plus, and Hulu.</p>
@@ -72,19 +74,18 @@ export default function Home() {
                     spaceBetween={10}
                     slidesPerView={8}
                     scrollbar={{ draggable: true }}
-                
+                  
                     breakpoints={{
-                    320: { slidesPerView: 2 },
-                    500: { slidesPerView: 3 },
-                    768: { slidesPerView: 3 },
-                    1024: { slidesPerView: 4 },
-                    1200: { slidesPerView: 5 },
+                    320: { slidesPerView: 3 },
+                    590: { slidesPerView: 4 },
+                    748: { slidesPerView: 4 },
+                    950: { slidesPerView: 5 },
                     1450: { slidesPerView: 6 },
                     2000: { slidesPerView: 7 },
                     }}>
-                    {trendingPeople && trendingPeople.filter((person) => person.profile_path !== null).map((person, index) => (
+                    {popularPeople && popularPeople.map((person, index) => (
                     <SwiperSlide key={index} >
-                    <PersonSlider key={index} item={person} />
+                    <PersonSlider key={index} item={person} loading={loading} />
                     </SwiperSlide>
                     ))}  
                 </Swiper>
@@ -166,5 +167,5 @@ export default function Home() {
                         <div className="w-100 brdr mt-3"></div>
                     </div>
                 </div>
-                {trendingPeople && trendingPeople.filter((person) => person.profile_path !== null).slice(0, 10).map((person, index) => <MediaItem key={index} item={person} />)}
+                {popularPeople && trendingPeople.filter((person) => person.profile_path !== null).slice(0, 10).map((person, index) => <MediaItem key={index} item={person} />)}
             </div> */}
