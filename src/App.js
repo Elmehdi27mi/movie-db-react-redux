@@ -3,7 +3,7 @@ import Home from './Components/Home/Home';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Components/Layout/Layout';
 import Login from './Components/Login/Login';
-//import {Offline} from 'react-detect-offline'
+import {Offline} from 'react-detect-offline'
 import Movie from './Components/Movie/Movie';
 import Search from './Components/Search/Search'
 import People from './Components/People/People';
@@ -67,14 +67,14 @@ function App() {
     <>
 
       <Provider store={store}>
-        {/* <div>
+         <div>
           <Offline> <div className='offline d-flex justify-content-center align-items-center'>
             <h3 className='text-light lead px-1'>You are offline</h3>
             <span class="loader"></span>
             </div>
             </Offline>
             
-        </div> */}
+        </div> 
         <RouterProvider router={routers} />
       </Provider>
     </>
