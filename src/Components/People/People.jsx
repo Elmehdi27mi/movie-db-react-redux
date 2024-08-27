@@ -28,7 +28,7 @@ export default function Explore() {
       {/* Affichage du spinner ou des films */}
       {loading ? (
         <div className=" d-flex justify-content-center align-items-center vh-100">
-         <i className='fas fa-spinner mainColor mb-5 fa-spin fa-4x'></i>
+         <i className='fas fa-spinner  mb-5 fa-spin fa-4x'></i>
         </div>
       ) : (
         <>
@@ -36,22 +36,24 @@ export default function Explore() {
             {popularPeople && popularPeople.slice(0, 18).map((person, index) => (
 
                  <div key={index} className='col-md-2 d-flex col-sm-3'>
-                <PersonSlider item={person} />
+                <PersonSlider item={person} loading={loading} />
               </div>
             ))}
           </div>
 
           {/* Pagination */}
           {totalePages > 0 && (
-            <div className="pagination my-5 w-50 mx-auto">
-              <div className='mx-auto w-100'>
-              <ResponsivePagination
-                current={currentPage}
-                total={totalePages}
-                onPageChange={setCurrentPage}
-                className="custom-pagination"
-              />
-              </div>
+          <div className='w-100 d-flex justify-content-center'>
+            <div className=" my-5 w-50">
+              <div className='w-75 mx-auto'>
+                <ResponsivePagination
+                  current={currentPage}
+                  total={totalePages}
+                  onPageChange={setCurrentPage}
+                  className="custom-pagination d-flex list-unstyled justify-content-center "
+                />
+                </div>
+            </div>
             </div>
           )}
         </>

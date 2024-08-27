@@ -91,7 +91,8 @@ export default function Login({saveUserData}) {
 
 
   return <>
-<div className='px-5 bg-danger '>
+  <div className='vh-100  d-flex justify-content-center align-items-center '>
+<div className='px-5 w-75'>
   <form onSubmit={submitLoginForm}>
     
     {err.length>0? <div className='alert p-2 alert-danger'>{err}</div>:''}
@@ -106,11 +107,12 @@ export default function Login({saveUserData}) {
 <div className='d-flex justify-content-between'>
 <p>dont have account ? <span className='po'><Link to='/register'>register</Link></span>  </p>
 
-<button className='btn rounded-1 btn-outline-info'>
+<button className='btnn'>
 {isLoading?<i className='fas fa-spinner fa-spin'></i>:'Login'}</button>
 </div>
 
   </form>
+  </div>
   </div>
   </>
 }

@@ -11,7 +11,7 @@ import SliderItemVedeos from '../SliderItemVedeos/SliderItemVedeos';
 export default function ItemContent({ title, subtitle, mediatype }) {
   const dispatch = useDispatch();
   const trending = useSelector((state) => state.media[`${mediatype}Trending`] || []); // Ajout de state dynamique pour 'movieTrending', 'tvTrending'
-  const moviesWithVideos = useSelector((state) => state.media[`${mediatype}WithVideos`] || []); // Pour traiter 'moviesWithVideos' séparément pour chaque mediaType
+  const itemsWithVideos = useSelector((state) => state.media[`${mediatype}WithVideos`] || []); // Pour traiter 'itemsWithVideos' séparément pour chaque mediaType
   const [endpoint, setEndpoint] = useState('day');
   const loading = useSelector((state) => state.media.loading);
   useEffect(() => {
@@ -55,9 +55,9 @@ export default function ItemContent({ title, subtitle, mediatype }) {
                   2000: { slidesPerView: 8 },
                 }}
               >
-                {trending.map((movie, index) => (
+                {trending.map((item, index) => (
                   <SwiperSlide key={index}>
-                    <SliderItem key={index} item={movie} loading={loading} />
+                    <SliderItem key={index} item={item} loading={loading} />
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -80,10 +80,10 @@ export default function ItemContent({ title, subtitle, mediatype }) {
             1200: { slidesPerView: 5 },
           }}
         >
-          {moviesWithVideos.map((movie, index) =>
-            movie.videos && movie.videos.length > 0 ? (
+          {itemsWithVideos.map((item, index) =>
+            item.videos && item.videos.length > 0 ? (
               <SwiperSlide key={index} className="d-flex justify-content-center align-items-center">
-               <SliderItemVedeos  key={index} item={movie} loading={loading}/>
+               <SliderItemVedeos  key={index} item={item} loading={loading}/>
               </SwiperSlide>
             ) : null
           )}
@@ -135,7 +135,7 @@ export default function ItemContent({ title, subtitle, mediatype }) {
 // const BASE_URL = 'https://api.themoviedb.org/3';
 
 // export default function ItemContent({title, subtitle, mediatype}) {
-//   const [Item, setTrendingMovies] = useState([]);
+//   const [Item, setTrendingitems] = useState([]);
 //   const [endpoint, setEndpoint] = useState('day'); 
 
 //   // Fetch trending movies and their videos

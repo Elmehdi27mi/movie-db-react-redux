@@ -17,6 +17,7 @@ import { Provider } from 'react-redux';
 import store from './Redux/Store';
 import { jwtDecode } from 'jwt-decode';
 import Explore from './Components/Explore/Explore';
+import PeopleDetails from './Components/PeopleDetails/PeopleDetails';
 
 function App() {
   const [userData, setUserData] = useState(null);
@@ -54,6 +55,8 @@ function App() {
         { path: 'people', element: <ProtectedRoute userData={userData}><People /></ProtectedRoute> },
         { path: 'profile', element: <ProtectedRoute userData={userData}><Profile userData={userData} /></ProtectedRoute> },
         { path: 'itemDetails/:id/:media_type', element: <ProtectedRoute userData={userData}><ItemDetails /></ProtectedRoute> },
+        { path: 'peopleDetails/:id', element: <ProtectedRoute userData={userData}><PeopleDetails /></ProtectedRoute> },
+
         { path: 'login', element: <Login saveUserData={saveUserData} /> },
         { path: 'register', element: <Register /> },
       ]
@@ -62,6 +65,7 @@ function App() {
 
   return (
     <>
+
       <Provider store={store}>
         {/* <div>
           <Offline> <div className='offline d-flex justify-content-center align-items-center'>

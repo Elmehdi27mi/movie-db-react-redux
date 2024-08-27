@@ -1,11 +1,13 @@
 import React from 'react';
 import loadingImage from '../../assets/placeholder1.png'; // Importer l'image
 import Skeleton from '@mui/material/Skeleton'; // Importer Skeleton de MUI
+import { Link } from 'react-router-dom';
 
 export default function PersonSlider({ item , loading }) {
 
 
   return (
+    
     <div className="w-100">
       {loading ? (
          <div className="position-relative mb-5">
@@ -34,8 +36,11 @@ export default function PersonSlider({ item , loading }) {
            animation="wave"
          />
        </div>
+     
       ) : (     
        item && item.profile_path && <div className="person mb-3">
+                <Link to={`/peopleDetails/${item.id}`}>
+
           <div className="container-img-vote position-relative">
             <img
               className="w-100 "
@@ -43,6 +48,7 @@ export default function PersonSlider({ item , loading }) {
               alt={item.title || item.name}
             />
           </div>
+          </Link>
           <div className='card rounded-0'>
                 <div className='ms-2 person-details'>
                     <p className="fs-0 ">{item.name}</p>

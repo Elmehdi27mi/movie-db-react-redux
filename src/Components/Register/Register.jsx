@@ -61,7 +61,8 @@ async function sendRegisterToApi(){
 
 
   return <>
-  <div className='px-5 '>
+  <div className='vh-100  d-flex justify-content-center align-items-center'>
+  <div className='px-5 w-75 '>
   <form onSubmit={submitRegisterForm}>
     
     {err.length>0? <div className='alert alert-danger'>{err}</div>:''}
@@ -88,10 +89,11 @@ async function sendRegisterToApi(){
   <div className='d-flex justify-content-between'>
 <p>you have an account ? <span><Link to='/login'>login</Link></span>  </p>
 
-<button className='btn rounded-1 btn-outline-info'>
+<button className='btnn'>
 {isLoading?<i className='fas fa-spinner fa-spin'></i>:'Register'}</button>
 </div>
   </form>
+  </div>
   </div>
   </>
 }

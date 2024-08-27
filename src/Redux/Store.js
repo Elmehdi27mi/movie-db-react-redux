@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { mediaReducer } from "./moviesslice";
+import { mediaReducer, themeReducer } from "./moviesslice";
 
 let store = configureStore({
     reducer: {
         media: mediaReducer,
+        theme: themeReducer,
     }
 });
 

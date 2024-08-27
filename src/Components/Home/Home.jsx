@@ -38,8 +38,8 @@ export default function Home() {
                 <div className=" my-5  mx-xxl-2 mx-0">
                     <div className=" image-container-home" style={{ backgroundImage: `url(${image111})` }}>
                         <div className='m-5'>
-                        <h3 >Joind our github </h3>
-                        <p>Loreabore natus provident omnis accusantium asperiores explicabo nulla nihil quam, qui consequatur! Impedit suscipit consequuntur atque et ipsum architecto fugit,  illo.
+                        <h3 className='mainColor text-color'>Joind our github </h3>
+                        <p className='text-color'>Loreabore natus provident omnis accusantium asperiores explicabo nulla nihil quam, qui consequatur! Impedit suscipit consequuntur atque et ipsum architecto fugit,  illo.
                         Saepe vero rep.</p>
                         <button className='btn btn-secondary px-5 py-2 mt-4'>Github</button>
                         </div>
@@ -53,8 +53,8 @@ export default function Home() {
                 <div className=" my-5 ">
                     <div className="image-container-home mx-xxl-2 mx-0" style={{ backgroundImage: `url(${image114})` }}>
                         <div className='m-5'>
-                        <h3>Join Today </h3>
-                        <p>Get access to maintain your own custom personal lists, track what you've seen and search and filter for what to watch next—regardless if it's in theatres, on TV or available on popular streaming services like Netflix, Amazon Prime Video, Disney Plus, Apple TV Plus, and Hulu.</p>
+                        <h3 className='mainColor text-color'>Join Today </h3>
+                        <p className='text-color'>Get access to maintain your own custom personal lists, track what you've seen and search and filter for what to watch next—regardless if it's in theatres, on TV or available on popular streaming services like Netflix, Amazon Prime Video, Disney Plus, Apple TV Plus, and Hulu.</p>
                         <button className='btn btn-secondary px-5 py-2 mt-4'>Github</button>
                         </div>
                     </div>

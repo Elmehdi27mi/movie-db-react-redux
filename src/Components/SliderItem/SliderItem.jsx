@@ -6,7 +6,7 @@ import loadingImage from '../../assets/placeholder1.png'; // Importer l'image
 import Skeleton from '@mui/material/Skeleton'; // Importer Skeleton de MUI
 
 export default function SliderItem({ item, loading }) {
-  const votePercentage = item.vote_average ? (item.vote_average / 10) * 100 : 0;
+  const votePercentage = item.vote_average ? (item.vote_average / 10) * 100 : "";
 
   // Déterminer la couleur du cercle en fonction du pourcentage
   let circleColor = 'blue';
@@ -50,8 +50,9 @@ export default function SliderItem({ item, loading }) {
           />
         </div>
       ) : (
-        <Link to={`/itemDetails/${item.id}/${item.media_type}`}>
           <div className="movie">
+                    <Link to={`/itemDetails/${item.id}/${item.media_type}`}>
+
             <div className="container-img-vote position-relative">
               <img
                 className="w-100 rounded-2"
@@ -64,10 +65,11 @@ export default function SliderItem({ item, loading }) {
                 </div>
               )}
             </div>
+            </Link>
             <p className="mt-4 mainColor fw-bolder font-secondary">{item.title || item.name}</p>
 
           </div>
-        </Link>
+       
       )}
     </div>
   );

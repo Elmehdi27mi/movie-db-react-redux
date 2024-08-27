@@ -13,8 +13,10 @@
   }
 }
 
+
+
+
 .App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -36,14 +38,7 @@
     transform: rotate(360deg);
   }
 }
-.llink{
-  padding: 0.5rem;
-  font-size: 18px;
-  font-weight: 600;
-  color: #fefefe;
-  position: relative;
-  transition: color 0.25s;
-}
+
 .embed-responsive {
   position: relative;
   display: block;

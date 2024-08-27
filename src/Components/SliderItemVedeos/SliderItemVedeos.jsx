@@ -1,6 +1,6 @@
 import React from 'react';
 import Skeleton from '@mui/material/Skeleton'; // Importer Skeleton de MUI
-import playIcon from '../../assets/image_play1.png';
+import playIcon from '../../assets/image_play.png';
 import loadingImage from '../../assets/placeholder1.png'; // Importer l'image
 
 export default function SliderItemVedeos({ item, loading }) {

@@ -1,17 +1,22 @@
+import { Link } from "react-router-dom";
 import ContentWrapper from "../ContentWrapper/ContentWrapper";
 
 
 
-const Footer= () => {
+const Footer= ({userData }) => {
     return (
-        <footer className="footer ">
+       
+        <footer >
+             {userData ? (
+                
+            <div className="footer bgNavFtr">
             <ContentWrapper>
                 <ul className="menuItems">
-                    <li className="menuItem">Terms Of Use</li>
-                    <li className="menuItem">Privacy-Policy</li>
-                    <li className="menuItem">About</li>
-                    <li className="menuItem">Blog</li>
-                    <li className="menuItem">FAQ</li>
+                    <li className="menuItem">   <Link>Terms Of Use</Link> </li>
+                    <li className="menuItem"><Link>Privacy-Policy</Link></li>
+                    <li className="menuItem"> <Link>About</Link> </li>
+                    <li className="menuItem"><Link>Blog</Link> </li>
+                    <li className="menuItem"> <Link>FAQ</Link></li>
                 </ul>
                 <div className="infoText">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
@@ -35,7 +40,11 @@ const Footer= () => {
                     </span>
                 </div>
             </ContentWrapper>
+            </div>
+            ):""
+            }
         </footer>
+     
     );
 };
 

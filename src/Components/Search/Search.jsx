@@ -23,7 +23,7 @@ export default function Search() {
         <div className="item container pt-5">
             {loading ? (
                 <div className="d-flex justify-content-center align-items-center vh-100">
-                    <i className='fas fa-spinner mainColor fa-spin mb-5 fa-4x'></i>
+                    <i className='fas fa-spinner fa-spin mb-5 fa-4x'></i>
                 </div>
             ) : (
                 <>
@@ -37,13 +37,17 @@ export default function Search() {
                                 ))}
                             </div>
                             {totalePages > 0 && (
-                                <div className="pagination my-5 w-50 mx-auto">
-                                    <ResponsivePagination
-                                        current={currentPage}
-                                        total={totalePages}
-                                        onPageChange={setCurrentPage}
-                                        className="custom-pagination"
-                                    />
+                            <div className='w-100 d-flex justify-content-center'>
+                                    <div className=" my-5 w-50">
+                                        <div className='w-75 mx-auto'>
+                                            <ResponsivePagination
+                                            current={currentPage}
+                                            total={totalePages}
+                                            onPageChange={setCurrentPage}
+                                            className="custom-pagination d-flex list-unstyled justify-content-center "
+                                            />
+                                            </div>
+                                    </div>
                                 </div>
                             )}
                         </>

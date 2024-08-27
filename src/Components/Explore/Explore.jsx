@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import SliderItem from '../SliderItem/SliderItem';
 import { getGenreItems, getPopularMovies } from '../../Redux/moviesslice';
@@ -18,32 +18,8 @@ export default function Explore() {
   const loading = useSelector((state) => state.media.loading);
   const [mediaType, setMediaType] = useState('movie'); 
 
-  useEffect(() => {
-    let filters = {};
-  
-    if (sortby) {
-      filters.sort_by = sortby.value;
-    }
-  
-    if (genre.length > 0) { 
-      filters.with_genres = genre.map((g) => g.id).join(',');
-    }
-  
-    dispatch(getPopularMovies({ mediaType: mediaType, page: currentPage, filters }));
-    dispatch(getGenreItems());
-  
-  }, [dispatch, currentPage, sortby, genre, mediaType]);
-
-  const onChange = (selectedItems, action) => {
-    if (action.name === "sortby") {
-      setSortby(selectedItems);
-    } else if (action.name === "genres") {
-      setGenre(selectedItems || []);
-    }
-    setCurrentPage(1); // Revenir à la première page lorsque les filtres changent
-  };
-
-  const sortbyData = [
+  // Mémorisation des données de tri pour éviter les recalculs inutiles
+  const sortbyData = useMemo(() => [
     { value: "popularity.desc", label: "Popularity Descending" },
     { value: "popularity.asc", label: "Popularity Ascending" },
     { value: "vote_average.desc", label: "Rating Descending" },
@@ -51,11 +27,36 @@ export default function Explore() {
     { value: "primary_release_date.desc", label: "Release Date Descending" },
     { value: "primary_release_date.asc", label: "Release Date Ascending" },
     { value: "original_title.asc", label: "Title (A-Z)" },
-  ];
+  ], []);
+
+  // Optimisation des fonctions de gestion des changements avec useCallback
+  const onChange = useCallback((selectedItems, action) => {
+    if (action.name === "sortby") {
+      setSortby(selectedItems);
+    } else if (action.name === "genres") {
+      setGenre(selectedItems || []);
+    }
+    setCurrentPage(1); // Revenir à la première page lorsque les filtres changent
+  }, []);
 
   const onTabChange = (tab) => {
     setMediaType(tab === 'Movie' ? 'movie' : 'tv');
   };
+
+  // Utilisation de useEffect pour gérer les appels API
+  useEffect(() => {
+    const filters = {};
+
+    if (sortby) filters.sort_by = sortby.value;
+    if (genre.length > 0) filters.with_genres = genre.map((g) => g.id).join(',');
+
+    dispatch(getPopularMovies({ mediaType, page: currentPage, filters }));
+  }, [dispatch, currentPage, sortby, genre, mediaType]);
+
+  useEffect(() => {
+    // Charger les genres une seule fois au montage du composant
+    dispatch(getGenreItems());
+  }, [dispatch]);
 
   return (
     <div className="item container pt-5">
@@ -71,7 +72,7 @@ export default function Explore() {
             onChange={onChange}
             isClearable={true}
             placeholder="Sort by"
-            className="react-select-container me-1"
+            className="react-select-container me-1 mb-2 "
             classNamePrefix="react-select"
           />
           <Select
@@ -93,14 +94,13 @@ export default function Explore() {
       {/* Affichage du spinner ou des films */}
       {loading ? (
         <div className=" d-flex justify-content-center align-items-center vh-100">
-         <i className='fas fa-spinner mainColor mb-5 fa-spin fa-4x'></i>
+         <i className='fas fa-spinner  mb-5 fa-spin fa-4x'></i>
         </div>
       ) : (
         <>
           <div className="row">
-            {popularMovies && popularMovies.slice(0, 18).map((movie, index) => (
-
-                 <div key={index} className='col-md-2 d-flex col-sm-3'>
+            {popularMovies && popularMovies.length > 0 && popularMovies.slice(0, 18).map((movie, index) => (
+              <div key={index} className='col-md-2 d-flex col-sm-3'>
                 <SliderItem item={movie} />
               </div>
             ))}
@@ -108,15 +108,17 @@ export default function Explore() {
 
           {/* Pagination */}
           {totalePages > 0 && (
-            <div className="pagination my-5 w-50 mx-auto">
-              <div className='mx-auto w-100'>
-              <ResponsivePagination
-                current={currentPage}
-                total={totalePages}
-                onPageChange={setCurrentPage}
-                className="custom-pagination"
-              />
-              </div>
+          <div className='w-100 d-flex justify-content-center'>
+            <div className=" my-5 w-50">
+              <div className='w-75 mx-auto'>
+                <ResponsivePagination
+                  current={currentPage}
+                  total={totalePages}
+                  onPageChange={setCurrentPage}
+                  className="custom-pagination d-flex list-unstyled justify-content-center "
+                />
+                </div>
+            </div>
             </div>
           )}
         </>

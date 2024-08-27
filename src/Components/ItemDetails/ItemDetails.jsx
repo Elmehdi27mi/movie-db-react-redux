@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import CircularChart from '../CircularChart/CircularChart';
 import SliderItem from '../SliderItem/SliderItem';
-import playIcon from '../../assets/image_play1.png'; // Icône de lecture personnalisée
+import playIcon from '../../assets/image_play.png'; // Icône de lecture personnalisée
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -17,14 +16,18 @@ import 'swiper/css/autoplay';
 
 // Import Swiper modules
 import { Scrollbar, Pagination } from 'swiper/modules';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCast, getDetailsFilm, getRelatedMovies, getTrailers } from '../../Redux/moviesslice';
 
 export default function ItemDetails() {
+  const dispatch = useDispatch();
   const { id, media_type } = useParams();
-  const [itemDetails, setItemDetails] = useState({});
+  const itemDetails = useSelector((state) => state.media.itemDetails);
+  const relatedMovies= useSelector((state) => state.media.relatedMovies);
+  const cast  = useSelector((state) => state.media.cast); 
+  const trailers = useSelector((state) => state.media.trailers); 
+  const loading = useSelector((state) => state.media.loading);
   const votePercentage = itemDetails.vote_average ? (itemDetails.vote_average * 10) : 0;
-  const [relatedMovies, setRelatedMovies] = useState([]); // État pour les films liés
-  const [cast, setCast] = useState([]); // État pour le casting
-  const [trailers, setTrailers] = useState([]); // État pour les bandes-annonces
 
   let circleColor = 'blue';
   if (votePercentage < 50) {
@@ -33,41 +36,15 @@ export default function ItemDetails() {
     circleColor = 'green';
   }
 
-  async function getDetailsFilm(id, media_type) {
-    let { data } = await axios.get(`https://api.themoviedb.org/3/${media_type}/${id}?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
-    setItemDetails(data);
-   
-  }
-
-  async function getRelatedMovies(id, media_type) {
-    let { data } = await axios.get(`https://api.themoviedb.org/3/${media_type}/${id}/similar?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
-    // Ajoutez media_type à chaque film
-    const moviesWithMediaType = data.results.map(movie => ({
-      ...movie,
-      media_type: media_type
-    }));
-    setRelatedMovies(moviesWithMediaType);
-  }
-  
-
-  async function getCast(id, media_type) {
-    let { data } = await axios.get(`https://api.themoviedb.org/3/${media_type}/${id}/credits?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
-    setCast(data.cast); // Met à jour l'état avec le casting
-  }
-
-  async function getTrailers(id, media_type) {
-    let { data } = await axios.get(`https://api.themoviedb.org/3/${media_type}/${id}/videos?api_key=b22e299473a6bd3b4ae42b1953fbd4b6`);
-    const trailers = data.results.filter((video) => video.type === 'Trailer' && video.site === 'YouTube');
-    setTrailers(trailers); // Mettre à jour l'état avec les trailers
-    console.log(trailers);
-  }
+ 
 
   useEffect(() => {
-    getDetailsFilm(id, media_type);
-    getRelatedMovies(id, media_type); 
-    getCast(id, media_type);
-    getTrailers(id, media_type); 
-  }, [id, media_type]);
+    dispatch(getDetailsFilm({ id, media_type }));
+    dispatch(getRelatedMovies({ id, media_type }));
+    dispatch(getCast({ id, media_type }));
+    dispatch(getTrailers({ id, media_type }));
+  }, [dispatch, id, media_type]);
+  
 
   // Construire le chemin de l'image
   const imagePath = itemDetails.poster_path 
@@ -86,12 +63,12 @@ export default function ItemDetails() {
       </Helmet>
       <div className="position-relative image-container" style={{ backgroundImage: `url(${backdropPath})` }}>
         <div className="detail row y-5 padd mt-5">
-          <div className="col-md-3 d-flex align-items-center">
-            <img className="w-100 rounded-3" src={imagePath} alt="" />
+          <div className="col-xxl-3 col-xl-4 col-lg-5 col-sm-6 ">
+            <img className="img-fluid rounded me-2" src={imagePath} alt="" />
           </div>
-          <div className="d-flex align-items-center ms-4 col-md-8">
+          <div className="col-xxl-8 col-xl-7 col-lg-6 col-sm-6">
             <div>
-              <h3 className="my-2 text-light">{itemDetails.title || itemDetails.name}</h3>
+              <h3 className="mb-2 text-light mt-sm-0 mt-3 ">{itemDetails.title || itemDetails.name}</h3>
               <p className="text-light">{itemDetails.tagline}</p>
               <div className="type d-flex">
                 {itemDetails.genres?.map((g, index) => (
@@ -101,7 +78,7 @@ export default function ItemDetails() {
                 ))}
               </div>
 
-              <div className="d-flex mb-3 mt-1">
+              <div className="d-flex   mt-1">
                 <button className="btn btn-outline-secondary me-2">
                   <i className="fa-solid fa-bookmark"></i>
                 </button>
@@ -109,13 +86,13 @@ export default function ItemDetails() {
                   <i className="fa-solid fa-heart"></i>
                 </button>
                 {trailers.length > 0 && (
-                  <a href={`https://www.youtube.com/watch?v=${trailers[0].key}`} target="_blank" rel="noopener noreferrer" className="btn btn-outline-primary">
-                    <i className="fa-solid fa-play me-2"></i> Play Trailer
+                  <a href={`https://www.youtube.com/watch?v=${trailers[0].key}`} target="_blank" rel="noopener noreferrer" className="btnn d-flex justify-content-center align-items-center" >
+                    <i className="fa-solid fa-play me-2 "></i><span > Trailer</span>
                   </a>
                 )}
               </div>
               {itemDetails.vote_average && (
-                <div className="vote-circle my-1">
+                <div className="vote-circle my-2  ">
                   <CircularChart percentage={votePercentage} color={circleColor} />
                 </div>
               )}
@@ -129,10 +106,11 @@ export default function ItemDetails() {
 
         {/* Afficher le casting */}
         <div className="cast-section w-75 mx-auto mt-5 mb-5">
+          <div className='w-75 mx-auto'>
           <h3 className='text-light fw-bolder mb-4'>Top Cast</h3>
           <Swiper
             modules={[Scrollbar, Pagination]}
-            spaceBetween={10} // Ajuster l'espacement entre les éléments
+            spaceBetween={0} // Ajuster l'espacement entre les éléments
             slidesPerView={8}
             scrollbar={{ draggable: true }}
             breakpoints={{
@@ -151,15 +129,16 @@ export default function ItemDetails() {
                       src={`https://image.tmdb.org/t/p/w200/${actor.profile_path}`}
                       alt={actor.name}
                       className="rounded-circle mb-2"
-                      style={{ width: '120px', height: '120px', objectFit: 'cover' }} // Ajuster la taille de l'image du casting
+                      style={{ width: '120px', height: '120px', objectFit: 'cover' }} 
                     />
-                    <h5 className="fw-bold text-light">{actor.name}</h5>
-                    <p className="text-light">as {actor.character}</p>
+                    <h5 className="fw-bold text-light font-secondary">{actor.name}</h5>
+                    <p className="text-light font-secondary mb-5">as {actor.character}</p>
                   </div>
                 </SwiperSlide>
               )
             ))}
           </Swiper>
+        </div>
         </div>
       </div>
 
@@ -243,7 +222,7 @@ export default function ItemDetails() {
       </div>
 
       {/* Ajouter un conteneur pour le carousel des recommandations */}
-      <div className="m-5 carousel-wrapper">
+      <div className="m-5  carousel-wrapper">
         <h4 className='mainColor m-3 fw-bolder'>Recommendations</h4>
         <Swiper
           modules={[ Scrollbar, Pagination]}
@@ -266,7 +245,7 @@ export default function ItemDetails() {
           {relatedMovies.map((movie, index) => (
             movie.poster_path && movie.vote_average &&(
               <SwiperSlide key={index}>
-                <SliderItem item={movie} />
+                <SliderItem item={movie} loading={loading} />
               </SwiperSlide>
             )
           ))}

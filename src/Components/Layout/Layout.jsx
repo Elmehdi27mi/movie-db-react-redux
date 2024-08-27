@@ -3,9 +3,11 @@ import Navbar from '../Navbar/Navbar'
 import { Outlet, useNavigate } from 'react-router-dom'
 import Footer from '../Footer/Footer'
 import axios from 'axios';
+import { selectIsDarkMode } from '../../Redux/moviesslice';
+import { useSelector } from 'react-redux';
 
 export default function Layout({setUserData,userData}) {
-
+  const isDarkMode = useSelector(selectIsDarkMode);
     let navigate=useNavigate();
     function logOut(){
       logoutFromBack();
@@ -20,11 +22,13 @@ export default function Layout({setUserData,userData}) {
   }
   return (
     <>
+<div className={isDarkMode ? 'dark-mode' : 'light-mode'}>
     <Navbar logOut={logOut} userData={userData} />
     <div >
     <Outlet></Outlet>
     </div>
-    <Footer/>
+    <Footer userData={userData}/>
+    </div>
     </>
   )
 }
